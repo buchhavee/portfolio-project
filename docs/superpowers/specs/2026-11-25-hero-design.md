@@ -91,7 +91,7 @@ Menuen åbner kun, når man trykker på knappen. **[Dig]**
 
 ## Farver og tema
 
-Semantiske tokens med Figmas CSS-navne. Temaet følger systemet, uden knap, fordi Figma ikke har en. **[Forslag]**
+Semantiske tokens med Figmas CSS-navne. Temaet følger systemet, til man bruger knappen, se `2026-11-25-theme-switch-design.md`.
 
 | Token | Lys | Mørk |
 |---|---|---|

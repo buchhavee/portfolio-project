@@ -2,20 +2,20 @@
 
 /* Names and values match the variables in Figma (03 Foundations). */
 @theme static {
-  --color-bg-page: #fdfdfc;
-  --color-bg-surface: #ffffff;
-  --color-bg-muted: #ededea;
-  --color-bg-inverse: #12110d;
-  --color-text-primary: #12110d;
-  --color-text-secondary: #6e6e67;
-  --color-text-inverse: #fdfdfc;
-  --color-text-inverse-secondary: #a3a39c;
-  --color-text-display-faded: #ededea;
+  --color-bg-page: light-dark(#fdfdfc, #0a0a08);
+  --color-bg-surface: light-dark(#ffffff, #12110d);
+  --color-bg-muted: light-dark(#ededea, #2a2925);
+  --color-bg-inverse: light-dark(#12110d, #ffffff);
+  --color-text-primary: light-dark(#12110d, #fdfdfc);
+  --color-text-secondary: light-dark(#6e6e67, #a3a39c);
+  --color-text-inverse: light-dark(#fdfdfc, #12110d);
+  --color-text-inverse-secondary: light-dark(#a3a39c, #6e6e67);
+  --color-text-display-faded: light-dark(#ededea, #2a2925);
   --color-text-on-accent: #ffffff;
-  --color-border-default: #deded9;
-  --color-border-inverse: #2a2925;
-  --color-accent-default: #3355ff;
-  --color-accent-hover: #2240e0;
+  --color-border-default: light-dark(#deded9, #2a2925);
+  --color-border-inverse: light-dark(#2a2925, #deded9);
+  --color-accent-default: light-dark(#3355ff, #5c78ff);
+  --color-accent-hover: light-dark(#2240e0, #3355ff);
 
   --radius-xl: 28px;
 
@@ -47,24 +47,61 @@
   --font-sans: var(--font-manrope), sans-serif;
 }
 
+/* The system decides until the switch has set data-theme. */
+@custom-variant dark {
+  &:where([data-theme="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme="light"]) *) {
+      @slot;
+    }
+  }
+}
+
+/* Only registered variables can be animated. */
+@property --color-bg-page { syntax: "<color>"; inherits: true; initial-value: #fdfdfc; }
+@property --color-bg-surface { syntax: "<color>"; inherits: true; initial-value: #ffffff; }
+@property --color-bg-muted { syntax: "<color>"; inherits: true; initial-value: #ededea; }
+@property --color-bg-inverse { syntax: "<color>"; inherits: true; initial-value: #12110d; }
+@property --color-text-primary { syntax: "<color>"; inherits: true; initial-value: #12110d; }
+@property --color-text-secondary { syntax: "<color>"; inherits: true; initial-value: #6e6e67; }
+@property --color-text-inverse { syntax: "<color>"; inherits: true; initial-value: #fdfdfc; }
+@property --color-text-inverse-secondary { syntax: "<color>"; inherits: true; initial-value: #a3a39c; }
+@property --color-text-display-faded { syntax: "<color>"; inherits: true; initial-value: #ededea; }
+@property --color-border-default { syntax: "<color>"; inherits: true; initial-value: #deded9; }
+@property --color-border-inverse { syntax: "<color>"; inherits: true; initial-value: #2a2925; }
+@property --color-accent-default { syntax: "<color>"; inherits: true; initial-value: #3355ff; }
+@property --color-accent-hover { syntax: "<color>"; inherits: true; initial-value: #2240e0; }
+@property --on-card { syntax: "<number>"; inherits: true; initial-value: 0; }
+
 @layer base {
   :root {
     color-scheme: light dark;
 
-    @media (prefers-color-scheme: dark) {
-      --color-bg-page: #0a0a08;
-      --color-bg-surface: #12110d;
-      --color-bg-muted: #2a2925;
-      --color-bg-inverse: #ffffff;
-      --color-text-primary: #fdfdfc;
-      --color-text-secondary: #a3a39c;
-      --color-text-inverse: #12110d;
-      --color-text-inverse-secondary: #6e6e67;
-      --color-text-display-faded: #2a2925;
-      --color-border-default: #2a2925;
-      --color-border-inverse: #deded9;
-      --color-accent-default: #5c78ff;
-      --color-accent-hover: #3355ff;
+    &[data-theme="light"] {
+      color-scheme: light;
+    }
+    &[data-theme="dark"] {
+      color-scheme: dark;
+    }
+
+    /* The tokens themselves fade, so everything that uses them changes together. */
+    @media (prefers-reduced-motion: no-preference) {
+      transition: 550ms ease;
+      transition-property: --color-bg-page,
+        --color-bg-surface,
+        --color-bg-muted,
+        --color-bg-inverse,
+        --color-text-primary,
+        --color-text-secondary,
+        --color-text-inverse,
+        --color-text-inverse-secondary,
+        --color-text-display-faded,
+        --color-border-default,
+        --color-border-inverse,
+        --color-accent-default,
+        --color-accent-hover;
     }
   }
 
@@ -115,6 +152,17 @@
 
   .orbit-item {
     --a: calc(var(--i) * 1turn / var(--count));
+  }
+
+  /* Icons that lie on the page, and on the menu card once it has unfolded under them.
+     Not a transition of color: its delay would hold back a change of theme too. */
+  .ink-on-card {
+    color: color-mix(
+      in srgb,
+      var(--color-text-inverse) calc(var(--on-card) * 100%),
+      var(--color-text-primary)
+    );
+    transition: --on-card 150ms;
   }
 
   /* room for g, p and y inside SplitText's mask */

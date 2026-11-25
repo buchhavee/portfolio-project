@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { MenuDots } from "@/components/atoms/menu-dots";
+import { ThemeSwitch } from "@/components/atoms/theme-switch";
 import { MenuCard } from "@/components/molecules/menu-card";
 import { useUnfold } from "@/hooks/use-unfold";
 
@@ -17,19 +18,24 @@ export function Menu() {
         onClick={close}
         className={`fixed inset-0 bg-bg-page/65 transition-opacity duration-300 motion-reduce:transition-none sm:hidden ${open ? "" : "pointer-events-none opacity-0"}`}
       />
-      <button
-        ref={button}
-        type="button"
-        aria-label="Menu"
-        aria-expanded={open}
-        aria-controls="menu"
-        onClick={() => setOpen(!open)}
-        onPointerEnter={() => setHovered(true)}
-        onPointerLeave={() => setHovered(false)}
-        className={`relative z-10 block cursor-pointer rounded-full transition-colors duration-150 ${open ? "text-text-inverse" : "text-text-primary delay-350 motion-reduce:delay-0"}`}
+      <div
+        className={`ink-on-card relative z-10 flex ${open ? "[--on-card:1]" : "delay-350 motion-reduce:delay-0"}`}
       >
-        <MenuDots shape={open ? "cross" : hovered ? "plus" : "grid"} />
-      </button>
+        <ThemeSwitch />
+        <button
+          ref={button}
+          type="button"
+          aria-label="Menu"
+          aria-expanded={open}
+          aria-controls="menu"
+          onClick={() => setOpen(!open)}
+          onPointerEnter={() => setHovered(true)}
+          onPointerLeave={() => setHovered(false)}
+          className="block cursor-pointer rounded-full"
+        >
+          <MenuDots shape={open ? "cross" : hovered ? "plus" : "grid"} />
+        </button>
+      </div>
       <nav
         ref={card}
         id="menu"
