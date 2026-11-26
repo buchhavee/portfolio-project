@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FlapText } from "@/components/atoms/flap-text";
 import { elsewhereLinks, mainLinks } from "@/data/site";
 
 type Props = {
@@ -16,7 +17,7 @@ export function MenuCard({ onNavigate }: Props) {
               prefetch={false} // the pages do not exist yet
               onClick={onNavigate}
             >
-              {label}
+              <FlapText text={label} />
             </Link>
           </li>
         ))}

@@ -199,4 +199,38 @@
     padding-block: 0.15em;
     margin-block: -0.15em;
   }
+
+  /* Split-flap letters (components/atoms/flap-text.tsx). At rest only the whole letter shows, so there is no seam. */
+  .flap-cell {
+    position: relative;
+    display: inline-block;
+    white-space: pre;
+    perspective: var(--flap-perspective);
+    perspective-origin: 50% var(--flap-split);
+  }
+  .flap-cell > :not(.flap-whole) {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center; /* a wider letter overflows evenly on both sides */
+    visibility: hidden;
+  }
+  .flap-cell[data-flipping] > * {
+    visibility: visible;
+  }
+  .flap-cell[data-flipping] > .flap-whole {
+    visibility: hidden;
+  }
+  .flap-top,
+  .flap-fold {
+    clip-path: inset(-0.5em -1em calc(100% - var(--flap-split)) -1em);
+  }
+  .flap-bottom,
+  .flap-land {
+    clip-path: inset(var(--flap-split) -1em -0.5em -1em);
+  }
+  .flap-fold,
+  .flap-land {
+    transform-origin: 50% var(--flap-split);
+  }
 }

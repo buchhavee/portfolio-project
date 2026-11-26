@@ -1,4 +1,4 @@
-import { Logo } from "@/components/atoms/logo";
+import { Logo } from "@/components/molecules/logo";
 import { Menu } from "./menu";
 
 export function Header() {
