@@ -35,7 +35,7 @@ export function ProjectCard({ project, span }: Props) {
     >
       <div
         data-card-frame
-        className={`relative [container-type:size] md:h-140 ${project.mockup === "phone" ? "h-89.5" : "h-70"}`}
+        className={`relative @container-size md:h-140 ${project.mockup === "phone" ? "h-89.5" : "h-70"}`}
       >
         <div
           data-card
