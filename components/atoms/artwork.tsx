@@ -31,7 +31,7 @@ export function Artwork({ project, sizes }: Props) {
           alt=""
           fill
           sizes={sizes}
-          loading="eager" // shown up in the ring long before its place in the grid is near
+          loading="eager"
           className="object-cover"
         />
       </div>
@@ -39,27 +39,16 @@ export function Artwork({ project, sizes }: Props) {
 
   if (project.mockup === "browser")
     return (
-      <div
-        data-art="browser"
-        className={`${centred} h-[340px] w-[520px] [scale:var(--art-scale,1)]`}
-      >
+      <div data-art="browser" className={`${centred} h-85 w-130 scale-(--art-scale,1)`}>
         {/* The shadow reaches past the window. */}
         <div className="absolute inset-[-4.71%_-7.69%_-18.82%_-7.69%]">
-          <Image
-            src="/images/artwork/browser.svg"
-            alt=""
-            fill
-            loading="eager"
-          />
+          <Image src="/images/artwork/browser.svg" alt="" fill loading="eager" />
         </div>
       </div>
     );
 
   return (
-    <div
-      data-art="phone"
-      className={`${centred} h-[370px] w-[180px] [scale:var(--art-scale,1)] overflow-clip rounded-[32px] bg-[#12110d] shadow-[0_24px_48px_-8px_rgb(0_0_0/0.18)]`}
-    >
+    <div data-art="phone" className={`${centred} h-[370px] w-[180px] [scale:var(--art-scale,1)] overflow-clip rounded-[32px] bg-[#12110d] shadow-[0_24px_48px_-8px_rgb(0_0_0/0.18)]`}>
       <div className="absolute top-2 left-2 h-[354px] w-[164px] overflow-clip rounded-[26px] bg-white">
         {screen.map(([left, top, width, height, radius, color]) => (
           <div

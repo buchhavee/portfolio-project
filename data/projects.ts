@@ -29,6 +29,13 @@ export const projects: Project[] = [
     image: "/images/projects/cc-design.webp",
     color: "#606e77",
   },
+  placeholder(9, "#f1eec6", "browser"),
+  placeholder(3, "#dcefe1", "phone"),
+  placeholder(4, "#d6e8f7", "phone"),
+  placeholder(5, "#f6dfe6", "phone"),
+  placeholder(6, "#1e2a6b", "browser"),
+  placeholder(7, "#f7e4d4", "phone"),
+  placeholder(8, "#e6dff6", "phone"),
   {
     slug: "9t7",
     title: "9t7",
@@ -36,13 +43,6 @@ export const projects: Project[] = [
     image: "/images/projects/9t7.webp",
     color: "#424242",
   },
-  placeholder(3, "#dcefe1", "phone"),
-  placeholder(4, "#d6e8f7", "phone"),
-  placeholder(5, "#f6dfe6", "phone"),
-  placeholder(6, "#1e2a6b", "browser"),
-  placeholder(7, "#f7e4d4", "phone"),
-  placeholder(8, "#e6dff6", "phone"),
-  placeholder(9, "#f1eec6", "browser"),
 ];
 
 /** "School · 2026 · React, TypeScript", leaving out what is not known yet. */
