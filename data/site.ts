@@ -1,4 +1,4 @@
-const email = "buchhavee@gmail.com";
+export const email = "buchhavee@gmail.com";
 const phone = "+45 24 26 43 48";
 
 export const contactLinks = [

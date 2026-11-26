@@ -1,6 +1,6 @@
 "use client";
 
-import { type PointerEvent, useRef } from "react";
+import { type PointerEvent, useEffect, useRef, useState } from "react";
 import { FlapText } from "@/components/atoms/flap-text";
 import { contactLinks } from "@/data/site";
 import { useUnfold } from "@/hooks/use-unfold";
@@ -8,6 +8,21 @@ import { useUnfold } from "@/hooks/use-unfold";
 export function ContactPill() {
   const { open, setOpen, root, button, card } = useUnfold();
   const hovering = useRef(false);
+  const [away, setAway] = useState(false);
+
+  // Steps aside while the footer shows: it has the email, and the pill would cover its bottom line.
+  useEffect(() => {
+    const footer = document.getElementById("footer");
+    if (!footer) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      setAway(entry.isIntersecting);
+      if (!entry.isIntersecting) return;
+      setOpen(false);
+      hovering.current = false;
+    });
+    observer.observe(footer);
+    return () => observer.disconnect();
+  }, [setOpen]);
 
   // A mouse opens it by hovering. Touch and keyboard press the button.
   const onHover = (event: PointerEvent, inside: boolean) => {
@@ -21,7 +36,8 @@ export function ContactPill() {
       ref={root}
       onPointerEnter={(event) => onHover(event, true)}
       onPointerLeave={(event) => onHover(event, false)}
-      className="fixed bottom-4 left-4 z-30 sm:bottom-8 sm:left-8"
+      inert={away}
+      className={`fixed bottom-4 left-4 z-30 transition-transform duration-500 ease-in-out motion-reduce:transition-none sm:bottom-8 sm:left-8 ${away ? "translate-y-[200%]" : ""}`}
     >
       <button
         ref={button}
