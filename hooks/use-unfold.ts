@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
+import { STILL } from "@/lib/motion";
 
 /** A card that unfolds from its button, followed by everything marked data-unfold-item. */
 export function useUnfold() {
@@ -19,7 +20,7 @@ export function useUnfold() {
       const items = el.querySelectorAll("[data-unfold-item]");
       unfold.current?.kill();
 
-      if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      if (matchMedia(STILL).matches) {
         gsap.set(shape.current, { width: 0, height: 0 });
         gsap.set([el, ...items], { clearProps: "all" });
         unfold.current = gsap

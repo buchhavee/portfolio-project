@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { gsap, SplitText, useGSAP } from "@/lib/gsap";
+import { MOVING } from "@/lib/motion";
 
 // Next keeps the page alive and re-runs effects when you come back to it.
 let introPlayed = false;
@@ -10,7 +11,7 @@ export function HeroSentence() {
   const heading = useRef<HTMLHeadingElement>(null);
 
   useGSAP(() => {
-    gsap.matchMedia().add("(prefers-reduced-motion: no-preference)", () => {
+    gsap.matchMedia().add(MOVING, () => {
       gsap.set(heading.current, { autoAlpha: 1 });
       if (introPlayed) return;
 

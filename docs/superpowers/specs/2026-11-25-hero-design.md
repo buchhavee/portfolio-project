@@ -22,7 +22,7 @@ Referencen er prototypen `orbit-2.html`. Værdierne herunder er dem, den starter
 
 | | Værdi | |
 |---|---|---|
-| Antal | 9 på desktop, 8 på mobil (højst 640 px bred) | [Dig] |
+| Antal | 9 på desktop og mobil, én pr. projekt (ændret 25. november, se `2026-11-25-orbit-to-grid-design.md`) | [Dig] |
 | Størrelse | 100 px, ens for alle | [Dig] |
 | Størrelse på mobil | 72 px. Ringen må gå lidt ud over skærmens kant | [Dig] |
 | Fart | konstant, 60 sekunder pr. omgang | [Dig] |
@@ -91,7 +91,7 @@ Menuen åbner kun, når man trykker på knappen. **[Dig]**
 
 ## Farver og tema
 
-Semantiske tokens med Figmas CSS-navne. Temaet følger systemet, uden knap, fordi Figma ikke har en. **[Forslag]**
+Semantiske tokens med Figmas CSS-navne. Temaet følger systemet, til man bruger knappen, se `2026-11-25-theme-switch-design.md`.
 
 | Token | Lys | Mørk |
 |---|---|---|
