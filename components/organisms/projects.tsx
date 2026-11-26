@@ -11,9 +11,8 @@ export function Projects() {
       data-projects
       className="px-4 pt-12 pb-16 md:px-6 md:pt-16 md:pb-24"
     >
-      <div className="relative mb-6 font-medium tracking-[-0.04em] text-text-display-faded max-md:text-[6rem] max-md:leading-none md:mb-4 md:h-43.25 md:overflow-clip md:text-display">
+      <div className="mb-6 font-medium tracking-[-0.04em] text-text-display-faded max-md:text-[6rem] max-md:leading-none md:mb-4 md:h-43.25 md:overflow-clip md:text-display md:[mask-image:linear-gradient(to_bottom,black,transparent)]">
         <h2 className="md:-mt-2.5">Projects</h2>
-        <div className="absolute inset-x-0 -top-2.5 h-61.5 bg-linear-to-b from-transparent to-bg-page max-md:hidden" />
       </div>
       <div className="grid gap-6 md:grid-cols-6 md:gap-4">
         {projects.map((project, i) => (
