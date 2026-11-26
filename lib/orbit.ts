@@ -38,10 +38,10 @@ export const MOTION = {
   gap: 48, // px between cards in a row
   power: 3,
   gravity: 0.5,
-  land: 0.8, // a circle lands when its place is at 80 % of the screen
+  land: 0.95, // a circle lands when its place is at 95 % of the screen
   landSize: 200,
-  growFrom: 1,
-  growTo: 0.7, // finished with its centre at 70 % of the screen, low enough that the panel comes early. Must stay under land.
+  growFrom: 1.15,
+  growTo: 0.85, // finished with its centre at 85 % of the screen, so the row above still shows. Must stay under land.
   lead: 0.14, // the width leads the height
   smoothing: 0.3, // s
   corner: 28,
