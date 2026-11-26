@@ -99,6 +99,11 @@ export function FlapText({ text }: { text: string }) {
       return () => {
         trigger.removeEventListener("pointerenter", onEnter);
         trigger.removeEventListener("focus", onFocus);
+        // Next hides a page it leaves (Activity) but keeps its DOM, so land any letter caught mid-flip.
+        for (const cell of el.querySelectorAll<HTMLElement>(".flap-cell")) {
+          delete cell.dataset.flipping;
+          for (const layer of cell.children) (layer as HTMLElement).style.cssText = "";
+        }
       };
     },
     { scope: root },
