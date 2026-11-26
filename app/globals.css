@@ -17,8 +17,13 @@
   --color-accent-default: light-dark(#3355ff, #5c78ff);
   --color-accent-hover: light-dark(#2240e0, #3355ff);
 
+  --radius-lg: 20px;
   --radius-xl: 28px;
 
+  --text-display: 15rem;
+  --text-display--line-height: 0.9;
+  --text-display--letter-spacing: -0.04em;
+  --text-display--font-weight: 500;
   --text-h2: 2.25rem;
   --text-h2--line-height: 1.1;
   --text-h2--letter-spacing: -0.015em;
@@ -45,6 +50,15 @@
 
 @theme inline {
   --font-sans: var(--font-manrope), sans-serif;
+}
+
+/* Reduced motion is ignored for now (26 November 2026): Tailwind's motion-reduce: never applies.
+   To respect it again, delete this block, restore the three media queries marked "reduced motion",
+   and set RESPECT_REDUCED_MOTION in lib/motion.ts. */
+@custom-variant motion-reduce {
+  @media not all {
+    @slot;
+  }
 }
 
 /* The system decides until the switch has set data-theme. */
@@ -74,10 +88,14 @@
 @property --color-accent-default { syntax: "<color>"; inherits: true; initial-value: #3355ff; }
 @property --color-accent-hover { syntax: "<color>"; inherits: true; initial-value: #2240e0; }
 @property --on-card { syntax: "<number>"; inherits: true; initial-value: 0; }
+/* Registered as lengths, so the script can read the ring's size in pixels. */
+@property --rx { syntax: "<length>"; inherits: true; initial-value: 0px; }
+@property --ry { syntax: "<length>"; inherits: true; initial-value: 0px; }
 
 @layer base {
   :root {
     color-scheme: light dark;
+    --hero: max(100svh, 35rem); /* the hero's min-height */
 
     &[data-theme="light"] {
       color-scheme: light;
@@ -86,8 +104,9 @@
       color-scheme: dark;
     }
 
-    /* The tokens themselves fade, so everything that uses them changes together. */
-    @media (prefers-reduced-motion: no-preference) {
+    /* The tokens themselves fade, so everything that uses them changes together.
+       reduced motion: was @media (prefers-reduced-motion: no-preference) */
+    @media all {
       transition: 550ms ease;
       transition-property: --color-bg-page,
         --color-bg-surface,
@@ -111,7 +130,8 @@
   }
 
   /* Hidden until its intro starts. Shown after 4s in case the script never runs. */
-  @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  /* reduced motion: was (scripting: enabled) and (prefers-reduced-motion: no-preference) */
+  @media (scripting: enabled) {
     [data-intro] {
       visibility: hidden;
       animation: show 0s 4s forwards;
@@ -137,16 +157,25 @@
 
 @layer components {
   .orbit {
-    --count: 8;
-    --hero: max(100svh, 35rem); /* the hero's min-height */
+    --count: 9;
     --rx: 45vw;
     --ry: min(var(--rx), var(--hero) * 0.5 - 153px); /* room for the title and the pill */
 
     @variant sm {
-      --count: 9;
       --rx: max(27.8vw, min(330px, 50vw - 70px));
       /* flatter on short screens, so the label at the bottom is not cut off */
       --ry: min(var(--hero) * 0.367, var(--hero) * 0.5 - 120px);
+    }
+  }
+
+  /* The hero stands still while the ring winds up: 85 % of its height. Without
+     the script nothing moves, so it does not stand still. */
+  .hero-track {
+    height: var(--hero);
+
+    /* reduced motion: was (scripting: enabled) and (prefers-reduced-motion: no-preference) */
+    @media (scripting: enabled) {
+      height: calc(var(--hero) * 1.85);
     }
   }
 

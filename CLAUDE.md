@@ -36,7 +36,6 @@ Language: English only.
 - Deploy on Vercel.
 
 ## Out of scope
-- No scroll-driven hero animation (rotation is constant).
 - No AI chat button (offmenu has one; we don't).
 - No separate Contact page (footer, menu and contact pill cover it).
 - No PP Neue Montreal on the live site, and no font files in a public repo (license).
@@ -45,5 +44,7 @@ Language: English only.
 ## Decisions after the brief
 - When Figma and this brief don't settle something, use offmenu.design as the reference, within the limits under "Out of scope".
 - Contact email is buchhavee@gmail.com for now. A domain and domain email are planned, so define the address in one place.
+- Scrolling from the hero speeds up the orbit and sends each circle down to become its own Projects card. The grid has 9 cards in rows of 2, 3, 2, 2, and the ring has 9 circles on mobile too. Fast mouse and trackpad scrolling is capped from the top until the first row has landed. Figma still shows 6 cards. Spec: docs/superpowers/specs/2026-11-25-orbit-to-grid-design.md
+- Reduced motion is ignored for now (user's request, 26 November 2026), against the brief above. The switch is RESPECT_REDUCED_MOTION in lib/motion.ts, plus the CSS marked "reduced motion" in app/globals.css.
 
 @AGENTS.md

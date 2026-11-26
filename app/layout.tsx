@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import { ContactPill } from "@/components/molecules/contact-pill";
 import { Header } from "@/components/organisms/header";
+import { SmoothScroll } from "@/components/organisms/smooth-scroll";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
@@ -26,6 +28,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="bg-bg-page font-sans text-text-primary antialiased">
+        <SmoothScroll />
         <Header />
         {children}
         <ContactPill />

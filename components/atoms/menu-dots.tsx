@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
+import { STILL } from "@/lib/motion";
 
 const DIAGONALS = [[0], [1, 3], [2, 4, 6], [5, 7], [8]];
 const DIMMED = {
@@ -22,7 +23,7 @@ export function MenuDots({ shape }: { shape: keyof typeof DIMMED }) {
 
       const dots = svg.current.querySelectorAll("circle");
       const dimmed: number[] = DIMMED[shape];
-      const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const reduced = matchMedia(STILL).matches;
       DIAGONALS.forEach((diagonal, step) =>
         diagonal.forEach((i) => {
           const opacity = dimmed.includes(i) ? 0.25 : 1;

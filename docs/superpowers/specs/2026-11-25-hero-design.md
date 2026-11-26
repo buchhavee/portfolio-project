@@ -22,7 +22,7 @@ Referencen er prototypen `orbit-2.html`. Værdierne herunder er dem, den starter
 
 | | Værdi | |
 |---|---|---|
-| Antal | 9 på desktop, 8 på mobil (højst 640 px bred) | [Dig] |
+| Antal | 9 på desktop og mobil, én pr. projekt (ændret 25. november, se `2026-11-25-orbit-to-grid-design.md`) | [Dig] |
 | Størrelse | 100 px, ens for alle | [Dig] |
 | Størrelse på mobil | 72 px. Ringen må gå lidt ud over skærmens kant | [Dig] |
 | Fart | konstant, 60 sekunder pr. omgang | [Dig] |
