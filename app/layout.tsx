@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import { ContactPill } from "@/components/molecules/contact-pill";
+import { Footer } from "@/components/organisms/footer";
 import { Header } from "@/components/organisms/header";
 import { SmoothScroll } from "@/components/organisms/smooth-scroll";
 import "lenis/dist/lenis.css";
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SmoothScroll />
         <Header />
         {children}
+        <Footer />
         <ContactPill />
       </body>
     </html>
