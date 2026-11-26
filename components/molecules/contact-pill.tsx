@@ -1,6 +1,7 @@
 "use client";
 
 import { type PointerEvent, useRef } from "react";
+import { FlapText } from "@/components/atoms/flap-text";
 import { contactLinks } from "@/data/site";
 import { useUnfold } from "@/hooks/use-unfold";
 
@@ -32,7 +33,7 @@ export function ContactPill() {
         }}
         className="relative z-10 block h-[49px] cursor-pointer rounded-full bg-bg-inverse px-6 text-body-strong text-text-inverse"
       >
-        Let&apos;s talk
+        <FlapText text="Let's talk" />
       </button>
       {/* Full size from the start, so the mouse can move up before the card has grown. */}
       <div
@@ -49,7 +50,7 @@ export function ContactPill() {
               <li key={label} data-unfold-item>
                 <a href={href} className="block">
                   <span className="mb-1 block text-caps text-text-inverse-secondary uppercase">
-                    {label}
+                    <FlapText text={label} />
                   </span>
                   {text}
                 </a>
