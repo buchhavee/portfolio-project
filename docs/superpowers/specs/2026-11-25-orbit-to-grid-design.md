@@ -60,10 +60,10 @@ Alt følger scroll begge veje. Scroller man op, flyver kortene tilbage i ringen.
 | Afstand mellem cirklerne i en række | 48 px scroll | [Dig] |
 | Kurvens blødhed | 3 | [Dig] |
 | Tyngde | 0,5 | [Dig] |
-| Cirklen lander, når pladsen er ved | 80 % af skærmhøjden | [Dig] |
+| Cirklen lander, når pladsen er ved | 95 % af skærmhøjden (var 80 %, ændret 26. november) | [Dig] |
 | Cirklens størrelse ved landing | 200 px, højst kortets mindste side | [Dig] |
-| Kortet begynder at vokse ved | 100 % | [Dig] |
-| Kortet er færdigt ved | 70 %. Først 40 %, så 60 %: info-panelet skal komme, mens kortet er langt nede på skærmen (ændret 26. november). Skal være under landingen på 80 % | [Dig] |
+| Kortet begynder at vokse ved | 115 % (var 100 %) | [Dig] |
+| Kortet er færdigt ved | 85 %. Først 40 %, så 60 %, så 70 %: info-panelet skal komme, mens kortet er langt nede på skærmen, og række 1 skal stadig ses, når række 2 er færdig (ændret 26. november). Skal være under landingen på 95 % | [Dig] |
 | Bredden fører højden | 0,14 | [Dig] |
 | Lenis lerp | 0,2 | [Dig] |
 | Eftergang | 300 ms | [Dig] |
@@ -95,7 +95,7 @@ Vurderes igen, når overgangen kører på den rigtige side.
   - `p = clamp((s − start) / F)`, `ex = inOut(p, 3)`, `ey = inOut(p^1,5, 3)`.
   - Positionen er `ringpunkt · (1 − e) + kortets midte · e` for hver akse.
   - Diameteren er `mix(størrelse · dybde, 200, ex)`.
-- **Landingen:** `g = clamp((s − (kortets midte − H)) / (0,3·H))`.
+- **Landingen:** `g = clamp((s − (kortets midte − 1,15·H)) / (0,3·H))`.
   - `gw = inOut(clamp(g / 0,86), 2)` og `gh = inOut(clamp((g − 0,14) / 0,86), 2)`.
   - Bredden er `mix(d, kortbredde, gw)`, højden `mix(d, korthøjde, gh)`, og hjørnet `mix(min(b, h)/2, 28, gh)`.
 - **Artwork:** et billede skaleres til `max(b, h) / max(kortbredde, korthøjde)`. En mockup skaleres fra 0,15 (browser) eller 0,2 (telefon) gange `d/100` op til sin størrelse i kortet.
