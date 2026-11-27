@@ -65,12 +65,11 @@ export function useOrbit(
         still: STILL,
         motion: MOVING,
         wide: "(min-width: 40rem)", // the title at the bottom is for phones
-        columns: "(min-width: 48rem)", // where the grid gets six columns
       },
       (context) => {
         const root = ring.current;
         if (!root || !context.conditions) return;
-        const { still, wide, columns } = context.conditions;
+        const { still, wide } = context.conditions;
 
         const items = gsap.utils.toArray<HTMLElement>("[data-orbit-item]", root);
         const hero = root.closest<HTMLElement>("[data-hero]");
@@ -100,6 +99,7 @@ export function useOrbit(
         let width = 0;
         let height = 0;
         let screen = 0; // the visible screen, which grows when Safari's bar folds away
+        let columns = false; // the grid has six columns. Read here, not by matchMedia above: that would restart the ring
         let hold = 0;
         let rx = 0;
         let ry = 0;
@@ -111,6 +111,9 @@ export function useOrbit(
           width = document.documentElement.clientWidth;
           height = hero?.offsetHeight ?? innerHeight;
           screen = innerHeight;
+          const nowColumns = matchMedia("(min-width: 48rem)").matches;
+          if (nowColumns !== columns) cards.forEach((card) => Object.assign(card, { kept: false, landFrom: null }));
+          columns = nowColumns;
           hold = (track?.offsetHeight ?? height) - height;
           const style = getComputedStyle(root);
           rx = parseFloat(style.getPropertyValue("--rx")) || 0;
