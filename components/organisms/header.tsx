@@ -35,15 +35,16 @@ export function Header() {
     };
   }, []);
 
+  // Logo and menu are pinned each on their own, not in one full-width fixed bar: under such a bar
+  // with content, iOS 26 Safari paints its status bar solid and keeps the colour through a theme switch.
   return (
-    <header
-      ref={header}
-      className="pointer-events-none fixed inset-x-0 top-0 z-40 flex items-start justify-between px-4 pt-3.5 *:pointer-events-auto sm:px-8 sm:pt-6"
-    >
-      <div className="flex h-11 items-center pt-1">
+    <header ref={header}>
+      <div className="fixed top-3.5 left-4 z-40 flex h-11 items-center pt-1 sm:top-6 sm:left-8">
         <Logo />
       </div>
-      <Menu />
+      <div className="fixed top-3.5 right-4 z-40 sm:top-6 sm:right-8">
+        <Menu />
+      </div>
     </header>
   );
 }
