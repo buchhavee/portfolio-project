@@ -101,7 +101,7 @@ export function Footer() {
             <span className="mt-[0.35em] size-2.5 shrink-0 rounded-full bg-accent-default md:mt-0" />
             Open to a frontend internship from autumn 2027
           </p>
-          <p className="text-text-inverse-secondary">© 2026 Mads · Designed and built by me</p>
+          <p className="text-text-inverse-secondary">Designed and built by Mads Buchhave · 2026</p>
         </div>
       </div>
     </footer>
