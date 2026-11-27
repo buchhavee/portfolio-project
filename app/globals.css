@@ -208,10 +208,14 @@
   /* The logo and the header's icons over the footer: the part that lies on it takes the footer's ink,
      the rest keeps the page's. --ink-edge is where the footer starts, from the element's top (header.tsx). */
   .ink-split {
-    color: transparent;
-
-    & :is(.flap-cell > *, .flap-still) {
-      background: linear-gradient(var(--color-text-primary) var(--ink-edge, 100vh), var(--color-text-inverse) 0);
+    &[data-ink="covered"] {
+      color: var(--color-text-inverse);
+    }
+    &[data-ink="split"] {
+      color: transparent;
+    }
+    &[data-ink="split"] :is(.flap-cell > *, .flap-still) {
+      background: linear-gradient(var(--color-text-primary) var(--ink-edge), var(--color-text-inverse) 0);
       background-clip: text;
     }
     /* every letter's box starts at the top of the line, so the edge falls in the same place on all of them */

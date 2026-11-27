@@ -18,8 +18,12 @@ export function Header() {
       const edge = footer.getBoundingClientRect().top;
       const boxes = inked.map((el) => el.getBoundingClientRect()); // every read before the first write
       inked.forEach((el, i) => {
-        const value = `${Math.min(Math.max(edge - boxes[i].top, -1), boxes[i].height + 1).toFixed(1)}px`;
+        const { top, height } = boxes[i];
+        const value = `${Math.min(Math.max(edge - top, -1), height + 1).toFixed(1)}px`;
         if (el.style.getPropertyValue("--ink-edge") !== value) el.style.setProperty("--ink-edge", value);
+        // The logo needs background-clip: text only while the edge crosses it.
+        const state = edge <= top ? "covered" : edge < top + height ? "split" : "";
+        if ((el.dataset.ink ?? "") !== state) el.dataset.ink = state;
       });
     };
     update();
