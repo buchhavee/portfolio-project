@@ -21,9 +21,9 @@ export function ThemeSwitch() {
       type="button"
       aria-label="Switch theme"
       onClick={toggle}
-      className="group block cursor-pointer rounded-full"
+      className="group relative block cursor-pointer rounded-full"
     >
-      <svg viewBox="0 0 44 44" className="size-11" aria-hidden>
+      <svg viewBox="0 0 44 44" className="size-11 ink-above" aria-hidden>
         <mask id="moon">
           <rect width="44" height="44" fill="white" />
           <circle
@@ -33,6 +33,14 @@ export function ThemeSwitch() {
             className="translate-x-[8.9px] -translate-y-[7.4px] transition-[translate] duration-1300 ease-[ease-out] group-hover:translate-0 group-hover:duration-650 motion-reduce:transition-none dark:translate-0 dark:group-hover:translate-x-[8.9px] dark:group-hover:-translate-y-[7.4px]"
           />
         </mask>
+        <circle cx="22" cy="22" r="8" fill="currentColor" mask="url(#moon)" />
+      </svg>
+      {/* The footer's ink where the footer lies under the button (globals.css). Same mask, so the moon moves with it. */}
+      <svg
+        viewBox="0 0 44 44"
+        className="absolute top-0 left-0 size-11 text-text-inverse ink-below"
+        aria-hidden
+      >
         <circle cx="22" cy="22" r="8" fill="currentColor" mask="url(#moon)" />
       </svg>
     </button>

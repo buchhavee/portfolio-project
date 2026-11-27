@@ -123,7 +123,9 @@ export function FlapText({ text }: { text: string }) {
               <span className="flap-land">{char}</span>
             </span>
           ) : (
-            char
+            <span key={i} className="flap-still">
+              {char}
+            </span>
           ),
         )}
       </span>

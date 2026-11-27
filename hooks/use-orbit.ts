@@ -8,6 +8,7 @@ import {
   finishedAt,
   FULL_TURN,
   inOut,
+  keepLanded,
   mix,
   mockupFit,
   MOTION,
@@ -42,6 +43,7 @@ type Card = {
   place: Place;
   fit: number;
   key: string;
+  kept: boolean;
 };
 
 /**
@@ -60,11 +62,12 @@ export function useOrbit(
         still: STILL,
         motion: MOVING,
         wide: "(min-width: 40rem)", // the title at the bottom is for phones
+        columns: "(min-width: 48rem)", // where the grid gets six columns
       },
       (context) => {
         const root = ring.current;
         if (!root || !context.conditions) return;
-        const { still, wide } = context.conditions;
+        const { still, wide, columns } = context.conditions;
 
         const items = gsap.utils.toArray<HTMLElement>("[data-orbit-item]", root);
         const hero = root.closest<HTMLElement>("[data-hero]");
@@ -85,11 +88,13 @@ export function useOrbit(
             place: { cx: 0, cy: 0, w: 0, h: 0, col: 0 },
             fit: 1,
             key: "",
+            kept: false,
           }));
 
         // Sizes are read here, never in the frame loop.
         let width = 0;
         let height = 0;
+        let screen = 0; // the visible screen, which grows when Safari's bar folds away
         let hold = 0;
         let rx = 0;
         let ry = 0;
@@ -100,6 +105,7 @@ export function useOrbit(
         const measure = () => {
           width = document.documentElement.clientWidth;
           height = hero?.offsetHeight ?? innerHeight;
+          screen = innerHeight;
           hold = (track?.offsetHeight ?? height) - height;
           const style = getComputedStyle(root);
           rx = parseFloat(style.getPropertyValue("--rx")) || 0;
@@ -207,7 +213,12 @@ export function useOrbit(
           scale: number,
         ) => {
           const { el, art, caption } = card;
-          const { p, g } = progress(s, card.place, scene);
+          let { p, g } = progress(s, card.place, scene);
+          // On one column only rows 1 and 2 fly back up to the ring.
+          if (!columns && i >= 2) {
+            card.kept = keepLanded(card.kept, p, g, card.place.cy - card.place.h / 2, s + screen);
+            if (card.kept) p = g = 1;
+          }
           const circle = items[i];
 
           if (p <= 0) {
