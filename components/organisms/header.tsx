@@ -39,7 +39,7 @@ export function Header() {
   // with content, iOS 26 Safari paints its status bar solid and keeps the colour through a theme switch.
   return (
     <header ref={header}>
-      <div className="fixed top-3.5 left-4 z-40 flex h-11 items-center pt-1 sm:top-6 sm:left-8">
+      <div className="fixed top-3.5 left-4 z-40 flex h-11 items-center sm:top-6 sm:left-8">
         <Logo />
       </div>
       <div className="fixed top-3.5 right-4 z-40 sm:top-6 sm:right-8">

@@ -46,5 +46,6 @@ Language: English only.
 - Contact email is buchhavee@gmail.com for now. A domain and domain email are planned, so define the address in one place.
 - Scrolling from the hero speeds up the orbit and sends each circle down to become its own Projects card. The grid has 9 cards in rows of 2, 3, 2, 2, and the ring has 9 circles on mobile too. Fast mouse and trackpad scrolling is capped from the top until the first row has landed. Figma still shows 6 cards. Spec: docs/superpowers/specs/2026-11-25-orbit-to-grid-design.md
 - Reduced motion is ignored for now (user's request, 26 November 2026), against the brief above. The switch is RESPECT_REDUCED_MOTION in lib/motion.ts, plus the CSS marked "reduced motion" in app/globals.css.
+- Project case cover (27 November 2026): the cover starts under the logo and the title sits under it, not on it, because the photos are dark. Clicking a ring circle or a grid card grows its image into the cover (own layer + GSAP, like offmenu). Spec: docs/superpowers/specs/2026-11-27-project-case-design.md
 
 @AGENTS.md
