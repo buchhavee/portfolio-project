@@ -8,6 +8,7 @@ import {
   finishedAt,
   FULL_TURN,
   inOut,
+  keepLanded,
   mix,
   mockupFit,
   MOTION,
@@ -29,6 +30,7 @@ const BRAKE = 1.6;
 const ACCELERATE = 2.4;
 const TITLE_ARC = (3 / LAP) * FULL_TURN; // what a circle travels in 3 seconds
 const MOCKUP_IN_RING = { browser: 0.15, phone: 0.2 }; // in a circle of 100 px
+const LANDING = 0.3; // s for a card on its way to finish landing when the page turns back up (one column)
 
 // Next keeps the page alive and re-runs effects when you come back to it.
 let introPlayed = false;
@@ -42,6 +44,9 @@ type Card = {
   place: Place;
   fit: number;
   key: string;
+  kept: boolean;
+  landFrom: [p: number, g: number] | null;
+  landing: number;
 };
 
 /**
@@ -60,11 +65,12 @@ export function useOrbit(
         still: STILL,
         motion: MOVING,
         wide: "(min-width: 40rem)", // the title at the bottom is for phones
+        columns: "(min-width: 48rem)", // where the grid gets six columns
       },
       (context) => {
         const root = ring.current;
         if (!root || !context.conditions) return;
-        const { still, wide } = context.conditions;
+        const { still, wide, columns } = context.conditions;
 
         const items = gsap.utils.toArray<HTMLElement>("[data-orbit-item]", root);
         const hero = root.closest<HTMLElement>("[data-hero]");
@@ -85,11 +91,15 @@ export function useOrbit(
             place: { cx: 0, cy: 0, w: 0, h: 0, col: 0 },
             fit: 1,
             key: "",
+            kept: false,
+            landFrom: null,
+            landing: 0,
           }));
 
         // Sizes are read here, never in the frame loop.
         let width = 0;
         let height = 0;
+        let screen = 0; // the visible screen, which grows when Safari's bar folds away
         let hold = 0;
         let rx = 0;
         let ry = 0;
@@ -100,6 +110,7 @@ export function useOrbit(
         const measure = () => {
           width = document.documentElement.clientWidth;
           height = hero?.offsetHeight ?? innerHeight;
+          screen = innerHeight;
           hold = (track?.offsetHeight ?? height) - height;
           const style = getComputedStyle(root);
           rx = parseFloat(style.getPropertyValue("--rx")) || 0;
@@ -193,6 +204,8 @@ export function useOrbit(
           gsap.to(speed, { value, duration, ease, overwrite: true });
 
         let s = getScroll(); // starts where the page is, so a reload half way down does not fly
+        let view = s; // the screen's top on the page
+        let rising = false; // the page is turning back up
         let settling = 20; // frames in which the browser may still restore the scroll position
         let windBefore = wind(Math.max(0, s) / scene.release);
         let scrolled = false;
@@ -205,9 +218,33 @@ export function useOrbit(
           ringX: number,
           ringY: number,
           scale: number,
+          dt: number,
         ) => {
           const { el, art, caption } = card;
-          const { p, g } = progress(s, card.place, scene);
+          let { p, g } = progress(s, card.place, scene);
+          const { x, y, depth } = point(i);
+          const ring = { x: ringX + x * scale * rx, y: ringY + y * scale * ry, d: size * depth };
+          // On one column only rows 1 and 2 fly back up to the ring.
+          if (!columns && i >= 2) {
+            // A card on its way that shows lands when the page turns back up, from where it is.
+            if (rising && !card.kept && !card.landFrom && p > 0) {
+              const f = cardFrame(p, g, card.place, ring);
+              const centre = card.place.cy + f.dy;
+              if (centre + f.h / 2 > view && centre - f.h / 2 < view + screen) {
+                card.landFrom = [p, g];
+                card.landing = 0;
+              }
+            }
+            if (card.landFrom) {
+              card.landing = Math.min(1, card.landing + dt / LANDING);
+              const t = inOut(card.landing, 2);
+              p = mix(card.landFrom[0], 1, t);
+              g = mix(card.landFrom[1], 1, t);
+              if (card.landing === 1) card.landFrom = null; // landed: keepLanded keeps it from here
+            }
+            card.kept = keepLanded(card.kept, p, g, card.place.cy - card.place.h / 2, s + screen);
+            if (card.kept) p = g = 1;
+          }
           const circle = items[i];
 
           if (p <= 0) {
@@ -222,12 +259,7 @@ export function useOrbit(
             return false;
           }
 
-          const { x, y, depth } = point(i);
-          const f = cardFrame(p, g, card.place, {
-            x: ringX + x * scale * rx,
-            y: ringY + y * scale * ry,
-            d: size * depth,
-          });
+          const f = cardFrame(p, g, card.place, ring);
           const landed = p >= 1 && g >= 1;
           const key = landed
             ? "landed"
@@ -270,8 +302,11 @@ export function useOrbit(
             gsap.killTweensOf(speed); // the browser restored a position below the top after the intro began
             speed.value = 1;
           }
+          const before = s;
           s = settling-- > 0 ? scroll : mix(s, scroll, 1 - Math.exp(-dt / MOTION.smoothing));
           if (Math.abs(scroll - s) < 0.5) s = scroll; // or it never quite arrives, and the last row never lands
+          rising = s < before - 0.01;
+          view = scroll;
           const x = Math.max(0, s) / scene.release;
           const windNow = wind(x);
           clock.angle =
@@ -298,7 +333,7 @@ export function useOrbit(
           const ringY = Math.min(Math.max(scroll, 0), hold) + height / 2; // the hero is sticky until it lets go
           items.forEach((item, i) => {
             const card = cards[i];
-            if (card && placeCard(card, i, ringX, ringY, scale)) return;
+            if (card && placeCard(card, i, ringX, ringY, scale, dt)) return;
             const { x: px, y: py, depth } = point(i);
             item.style.transform = `translate(calc(${(px * scale).toFixed(6)} * var(--rx)), calc(${(py * scale).toFixed(6)} * var(--ry))) scale(${depth.toFixed(4)})`;
           });

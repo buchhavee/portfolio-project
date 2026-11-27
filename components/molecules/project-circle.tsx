@@ -7,10 +7,10 @@ type Props = {
   project: Project;
 };
 
-// A mockup shrunk to fit a circle of 72 px on phones and 100 px from sm.
+// A mockup shrunk to fit a circle of 64 px on phones and 100 px from sm.
 const mockupScale = {
-  browser: "[--art-scale:0.108] sm:[--art-scale:0.15]",
-  phone: "[--art-scale:0.144] sm:[--art-scale:0.2]",
+  browser: "[--art-scale:0.096] sm:[--art-scale:0.15]",
+  phone: "[--art-scale:0.128] sm:[--art-scale:0.2]",
 };
 
 export function ProjectCircle({ project }: Props) {
@@ -18,7 +18,7 @@ export function ProjectCircle({ project }: Props) {
     <Link
       href={`/projects/${project.slug}`}
       prefetch={false} // the case pages do not exist yet
-      className="group pointer-events-auto absolute size-18 -translate-1/2 rounded-full outline-none [text-decoration:none] hover:before:absolute hover:before:-inset-6 hover:before:rounded-full sm:size-25"
+      className="group pointer-events-auto absolute size-16 -translate-1/2 rounded-full outline-none [text-decoration:none] hover:before:absolute hover:before:-inset-6 hover:before:rounded-full sm:size-25"
     >
       <span
         style={{ backgroundColor: project.color }}

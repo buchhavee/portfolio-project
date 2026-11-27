@@ -14,11 +14,13 @@ export function Menu() {
 
   return (
     <div ref={root} className="relative">
+      {/* hidden, not only transparent, so Safari does not paint its bars from it */}
       <div
         onClick={close}
-        className={`fixed inset-0 bg-bg-page/65 transition-opacity duration-300 motion-reduce:transition-none sm:hidden ${open ? "" : "pointer-events-none opacity-0"}`}
+        className={`fixed inset-0 bg-bg-page/65 transition-[opacity,visibility] duration-300 motion-reduce:transition-none sm:hidden ${open ? "" : "pointer-events-none invisible opacity-0"}`}
       />
       <div
+        data-ink
         className={`ink-on-card relative z-10 flex ${open ? "[--on-card:1]" : "delay-350 motion-reduce:delay-0"}`}
       >
         <ThemeSwitch />

@@ -2,7 +2,7 @@ import Lenis from "lenis";
 import { onFrame } from "./frame.ts";
 import { RESPECT_REDUCED_MOTION, STILL } from "./motion.ts";
 
-export const LERP = 0.2;
+export const LERP = 0.1; // Lenis' default: a wheel notch on Windows glides for about half a second
 export const BRAKE_CAP = 1500; // px per second, for mouse and trackpad between the hero and the first row
 
 /**

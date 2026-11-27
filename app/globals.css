@@ -169,7 +169,7 @@
 @layer components {
   .orbit {
     --count: 9;
-    --rx: 45vw;
+    --rx: calc(50vw - 3rem); /* the outermost 64 px circle stays 1rem inside the screen */
     --ry: min(var(--rx), var(--hero) * 0.5 - 153px); /* room for the title and the pill */
 
     @variant sm {
@@ -203,6 +203,35 @@
       var(--color-text-primary)
     );
     transition: --on-card 150ms;
+  }
+
+  /* The logo and the header's icons over the footer: the part that lies on it takes the footer's ink,
+     the rest keeps the page's. --ink-edge is where the footer starts, from the element's top (header.tsx). */
+  .ink-split {
+    &[data-ink="covered"] {
+      color: var(--color-text-inverse);
+    }
+    &[data-ink="split"] {
+      color: transparent;
+    }
+    &[data-ink="split"] :is(.flap-cell > *, .flap-still) {
+      background: linear-gradient(var(--color-text-primary) var(--ink-edge), var(--color-text-inverse) 0);
+      background-clip: text;
+    }
+    /* every letter's box starts at the top of the line, so the edge falls in the same place on all of them */
+    & .flap-whole {
+      display: block;
+    }
+    & .flap-still {
+      display: inline-block;
+      white-space: pre;
+    }
+  }
+  .ink-above {
+    clip-path: inset(0 0 calc(100% - var(--ink-edge, 100vh)) 0);
+  }
+  .ink-below {
+    clip-path: inset(var(--ink-edge, 100vh) 0 0 0);
   }
 
   /* room for g, p and y inside SplitText's mask */

@@ -140,6 +140,14 @@ export function mockupFit(mockup: "browser" | "phone", w: number, h: number) {
 export const rowDone = (firstRowY: number, height: number) =>
   firstRowY - MOTION.growTo * height;
 
+/**
+ * On one column a card flying back up would cross the whole screen, so once landed it stays until
+ * its place is below the screen and it is back at the ring (p = 0): it then leaves no flight to see.
+ * top is the top of its place on the page, screenBottom the bottom of the screen.
+ */
+export const keepLanded = (kept: boolean, p: number, g: number, top: number, screenBottom: number) =>
+  (kept || (p >= 1 && g >= 1)) && (top < screenBottom || p > 0);
+
 /** The scroll position where a card has landed and finished growing. */
 export const finishedAt = (place: Place, scene: Scene) =>
   Math.min(place.cy - MOTION.growTo * scene.height, scene.end);

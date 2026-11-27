@@ -38,7 +38,7 @@ export function AboutTeaser() {
   });
 
   return (
-    <section className="flex flex-col gap-6 border-t border-border-default px-4 pt-12 pb-16 md:flex-row md:gap-16 md:border-t-0 md:px-6 md:py-24">
+    <section className="flex flex-col gap-6 px-4 pt-12 pb-16 md:flex-row md:gap-16 md:px-6 md:py-24">
       <h2 className="text-caps text-text-secondary uppercase md:w-1/3 md:max-w-110 md:shrink-0">
         About
       </h2>
